@@ -286,11 +286,11 @@ function LeaderboardPage({ mode="survival", planetId=0, planetName="", onBack })
       <div style={{ display:"flex",gap:8,padding:"10px 16px",position:"relative",zIndex:2,borderBottom:"1px solid rgba(255,255,255,0.07)" }}>
         <button onClick={()=>{ setTab("survival"); setSelectedPlanet(null); }}
           style={{ flex:1,padding:"8px 0",borderRadius:10,border:`1px solid ${tab==="survival"?"rgba(52,211,153,0.5)":"rgba(255,255,255,0.08)"}`,background:tab==="survival"?"rgba(52,211,153,0.12)":"transparent",color:tab==="survival"?"#34D399":"rgba(255,255,255,0.4)",fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"monospace",display:"flex",alignItems:"center",justifyContent:"center",gap:6 }}>
-          <img src="/assets/ui_rocket_launch.png" style={{width:14,height:14,objectFit:"contain"}}/> 生存挑戰
+          <img src="/assets/ui_rocket_launch.png" alt="" style={{width:14,height:14,objectFit:"contain"}}/> 生存挑戰
         </button>
         <button onClick={()=>setTab("mission")}
           style={{ flex:1,padding:"8px 0",borderRadius:10,border:`1px solid ${tab==="mission"?"rgba(245,166,35,0.5)":"rgba(255,255,255,0.08)"}`,background:tab==="mission"?"rgba(245,166,35,0.1)":"transparent",color:tab==="mission"?"#F5A623":"rgba(255,255,255,0.4)",fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"monospace",display:"flex",alignItems:"center",justifyContent:"center",gap:6 }}>
-          <img src="/assets/ui_trophy.png" style={{width:14,height:14,objectFit:"contain"}}/> 星球任務
+          <img src="/assets/ui_trophy.png" alt="" style={{width:14,height:14,objectFit:"contain"}}/> 星球任務
         </button>
       </div>
 
@@ -325,7 +325,7 @@ function LeaderboardPage({ mode="survival", planetId=0, planetName="", onBack })
             {scores.map((s,i)=>(
               <div key={s._id||i} style={{ display:"flex",alignItems:"center",gap:12,padding:"12px 14px",marginBottom:8,background:"rgba(255,255,255,0.04)",border:`1px solid ${i===0?"rgba(245,166,35,0.4)":i===1?"rgba(192,192,192,0.3)":i===2?"rgba(205,127,50,0.3)":"rgba(255,255,255,0.06)"}`,borderRadius:12 }}>
                 <div style={{ width:28,textAlign:"center" }}>
-                  {i===0?<img src="/assets/ui_gold_medal.png" style={{width:24,height:24,objectFit:"contain"}}/>:i===1?<img src="/assets/ui_silver_medal.png" style={{width:24,height:24,objectFit:"contain"}}/>:i===2?<img src="/assets/ui_bronze_medal.png" style={{width:24,height:24,objectFit:"contain"}}/>:<span style={{fontSize:12,color:"rgba(255,255,255,0.3)",fontFamily:"monospace",fontWeight:900}}>{i+1}</span>}
+                  {i===0?<img src="/assets/ui_gold_medal.png" alt="" style={{width:24,height:24,objectFit:"contain"}}/>:i===1?<img src="/assets/ui_silver_medal.png" alt="" style={{width:24,height:24,objectFit:"contain"}}/>:i===2?<img src="/assets/ui_bronze_medal.png" alt="" style={{width:24,height:24,objectFit:"contain"}}/>:<span style={{fontSize:12,color:"rgba(255,255,255,0.3)",fontFamily:"monospace",fontWeight:900}}>{i+1}</span>}
                 </div>
                 <div style={{ flex:1 }}>
                   <div style={{ fontSize:13,fontWeight:700 }}>{s.name}</div>
@@ -345,7 +345,7 @@ function LeaderboardPage({ mode="survival", planetId=0, planetName="", onBack })
             {scores.map((s,i)=>(
               <div key={s._id||i} style={{ display:"flex",alignItems:"center",gap:12,padding:"12px 14px",marginBottom:8,background:"rgba(255,255,255,0.04)",border:`1px solid ${i===0?"rgba(245,166,35,0.4)":i===1?"rgba(192,192,192,0.3)":i===2?"rgba(205,127,50,0.3)":"rgba(255,255,255,0.06)"}`,borderRadius:12 }}>
                 <div style={{ width:28,textAlign:"center" }}>
-                  {i===0?<img src="/assets/ui_gold_medal.png" style={{width:24,height:24,objectFit:"contain"}}/>:i===1?<img src="/assets/ui_silver_medal.png" style={{width:24,height:24,objectFit:"contain"}}/>:i===2?<img src="/assets/ui_bronze_medal.png" style={{width:24,height:24,objectFit:"contain"}}/>:<span style={{fontSize:12,color:"rgba(255,255,255,0.3)",fontFamily:"monospace",fontWeight:900}}>{i+1}</span>}
+                  {i===0?<img src="/assets/ui_gold_medal.png" alt="" style={{width:24,height:24,objectFit:"contain"}}/>:i===1?<img src="/assets/ui_silver_medal.png" alt="" style={{width:24,height:24,objectFit:"contain"}}/>:i===2?<img src="/assets/ui_bronze_medal.png" alt="" style={{width:24,height:24,objectFit:"contain"}}/>:<span style={{fontSize:12,color:"rgba(255,255,255,0.3)",fontFamily:"monospace",fontWeight:900}}>{i+1}</span>}
                 </div>
                 <div style={{ flex:1 }}>
                   <div style={{ fontSize:13,fontWeight:700 }}>{s.name}</div>
@@ -382,7 +382,7 @@ function SurvivalResult({ score,elapsed,wave,rocket,onBack,onRestart,onShowLeade
   return (
     <div style={{ position:"absolute",inset:0,zIndex:50,background:"rgba(0,0,0,0.93)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",fontFamily:"system-ui" }}>
       <div style={{ textAlign:"center",padding:"0 24px",width:"100%",maxWidth:320 }}>
-        <img src="/assets/ui_explosion.png" style={{width:80,height:80,objectFit:"contain",marginBottom:8}}/>
+        <img src="/assets/ui_explosion.png" alt="" style={{width:80,height:80,objectFit:"contain",marginBottom:8}}/>
         <div style={{ fontSize:22,fontWeight:800,color:"#EF4444",marginBottom:4 }}>火箭墜毀！</div>
         <div style={{ background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:16,padding:"20px 24px",marginBottom:12 }}>
           <div style={{ display:"flex",justifyContent:"space-between",marginBottom:12 }}>
@@ -414,7 +414,7 @@ function SurvivalResult({ score,elapsed,wave,rocket,onBack,onRestart,onShowLeade
         <div style={{ display:"flex",gap:10 }}>
           <button onClick={onBack} style={{ flex:1,background:"rgba(255,255,255,0.05)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:12,padding:"13px 0",color:"rgba(255,255,255,0.6)",fontSize:13,cursor:"pointer" }}>返回</button>
           <button onClick={onRestart} style={{ flex:1,background:"rgba(52,211,153,0.15)",border:"1px solid rgba(52,211,153,0.4)",borderRadius:12,padding:"13px 0",color:"#34D399",fontSize:13,fontWeight:700,cursor:"pointer" }}>再挑戰</button>
-          <button onClick={()=>onShowLeaderboard("survival")} style={{ flex:1,background:"linear-gradient(135deg,#F5A623,#FF8C00)",border:"none",borderRadius:12,padding:"13px 0",color:"#000",fontSize:13,fontWeight:800,cursor:"pointer" }}><img src="/assets/ui_trophy.png" style={{width:16,height:16,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/> 榜單</button>
+          <button onClick={()=>onShowLeaderboard("survival")} style={{ flex:1,background:"linear-gradient(135deg,#F5A623,#FF8C00)",border:"none",borderRadius:12,padding:"13px 0",color:"#000",fontSize:13,fontWeight:800,cursor:"pointer" }}><img src="/assets/ui_trophy.png" alt="" style={{width:16,height:16,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/> 榜單</button>
         </div>
       </div>
     </div>
@@ -1542,7 +1542,7 @@ function MissionResult({ planet, stages, stageResults, onFinish, onBack }) {
                     style={{ flex:1,background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:8,padding:"6px 10px",color:"#E8EDF2",fontSize:12,outline:"none",fontFamily:"system-ui" }}/>
                   <button onClick={doMissionUpload} disabled={!missionName.trim()}
                     style={{ padding:"6px 12px",background:missionName.trim()?"linear-gradient(135deg,#F5A623,#FF8C00)":"rgba(255,255,255,0.1)",border:"none",borderRadius:8,color:missionName.trim()?"#000":"rgba(255,255,255,0.3)",fontSize:11,fontWeight:800,cursor:missionName.trim()?"pointer":"not-allowed" }}>
-                    <img src="/assets/ui_trophy.png" style={{width:14,height:14,objectFit:"contain",verticalAlign:"middle",marginRight:3}}/>立刻留名
+                    <img src="/assets/ui_trophy.png" alt="" style={{width:14,height:14,objectFit:"contain",verticalAlign:"middle",marginRight:3}}/>立刻留名
                   </button>
                 </div>
               ):(
@@ -1686,7 +1686,7 @@ function FailBanner({ stageName, reason, onDone, onRetry=null }) {
   return (
     <div style={{ position:"absolute",inset:0,zIndex:50,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"rgba(0,0,0,0.78)",fontFamily:"system-ui" }}>
       <div style={{ background:"rgba(239,68,68,0.12)",border:"1px solid rgba(239,68,68,0.4)",borderRadius:20,padding:"28px 36px",textAlign:"center",maxWidth:280 }}>
-        <img src="/assets/ui_cracked_shield.png" style={{width:60,height:60,objectFit:"contain",marginBottom:10}}/>
+        <img src="/assets/ui_cracked_shield.png" alt="" style={{width:60,height:60,objectFit:"contain",marginBottom:10}}/>
         <div style={{ fontSize:18,fontWeight:800,color:"#EF4444",marginBottom:6 }}>{label}</div>
         <div style={{ fontSize:12,color:"#7A8EA0",marginBottom:14 }}>{stageName}</div>
         {onRetry ? (
@@ -1917,13 +1917,11 @@ function Home({ onLaunch, onRnD, onSurvival, onLeaderboard, playerName, funds, r
   const next=ROCKETS[maxRocket+1], pct=next?Math.min(100,(funds/next.cost)*100):100;
   const canPrev=rocketId>0, canNext=rocketId<maxRocket;
   const startedRef=useRef(false);
-  const [testOn,setTestOn]=useState(TEST.on);
   const [adCountLocal,setAdCountLocal]=useState(adCount);
   // Try to start music on mount (works if audio already unlocked from a previous screen)
   useEffect(()=>{ Music.play("home"); },[]);
   // Browsers block audio until a user gesture — (re)start music on first tap.
   const kickAudio=()=>{ initAudio(); if(!startedRef.current){ startedRef.current=true; Music.play("home", true); } };
-  const toggleTest=(e)=>{ e.stopPropagation(); TEST.on=!TEST.on; setTestOn(TEST.on); SFX.uiTap(); };
   return (
     <div style={{ position:"relative",width:GW,height:GH,maxWidth:"100%",overflow:"hidden",fontFamily:"system-ui",color:C.ink }}
       onClick={kickAudio} onTouchStart={kickAudio}>
@@ -1964,17 +1962,17 @@ function Home({ onLaunch, onRnD, onSurvival, onLeaderboard, playerName, funds, r
         </div>
         <button onClick={()=>{ SFX.uiTap(); onLaunch(); }} style={{ width:"100%",padding:"15px 0",marginBottom:8,background:`linear-gradient(135deg,${C.amber},${C.amberGlow})`,border:"none",borderRadius:14,color:"#000",fontSize:13,fontWeight:800,letterSpacing:2,fontFamily:"monospace",cursor:"pointer",boxShadow:`0 0 22px rgba(245,166,35,0.38)` }}>◉ SELECT TARGET</button>
         <div style={{ display:"flex",gap:8,marginBottom:8 }}>
-          <button onClick={()=>{ SFX.uiTap(); onSurvival&&onSurvival(); }} style={{ flex:1,padding:"12px 0",background:"rgba(52,211,153,0.12)",border:"1px solid rgba(52,211,153,0.35)",borderRadius:12,color:"#34D399",fontSize:11,fontWeight:700,fontFamily:"monospace",letterSpacing:1,cursor:"pointer" }}><img src="/assets/ui_rocket_launch.png" style={{width:16,height:16,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/> 生存挑戰</button>
-          <button onClick={()=>{ SFX.uiTap(); onLeaderboard&&onLeaderboard(); }} style={{ flex:1,padding:"12px 0",background:"rgba(245,166,35,0.08)",border:"1px solid rgba(245,166,35,0.25)",borderRadius:12,color:C.amber,fontSize:11,fontWeight:700,fontFamily:"monospace",letterSpacing:1,cursor:"pointer" }}><img src="/assets/ui_trophy.png" style={{width:16,height:16,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/> 排行榜</button>
+          <button onClick={()=>{ SFX.uiTap(); onSurvival&&onSurvival(); }} style={{ flex:1,padding:"12px 0",background:"rgba(52,211,153,0.12)",border:"1px solid rgba(52,211,153,0.35)",borderRadius:12,color:"#34D399",fontSize:11,fontWeight:700,fontFamily:"monospace",letterSpacing:1,cursor:"pointer" }}><img src="/assets/ui_rocket_launch.png" alt="" style={{width:16,height:16,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/> 生存挑戰</button>
+          <button onClick={()=>{ SFX.uiTap(); onLeaderboard&&onLeaderboard(); }} style={{ flex:1,padding:"12px 0",background:"rgba(245,166,35,0.08)",border:"1px solid rgba(245,166,35,0.25)",borderRadius:12,color:C.amber,fontSize:11,fontWeight:700,fontFamily:"monospace",letterSpacing:1,cursor:"pointer" }}><img src="/assets/ui_trophy.png" alt="" style={{width:16,height:16,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/> 排行榜</button>
         </div>
-        <button onClick={()=>{ SFX.uiTap(); onRnD(); }} style={{ width:"100%",background:"rgba(255,255,255,0.04)",border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 0",color:C.inkDim,fontSize:11,fontFamily:"monospace",letterSpacing:1,cursor:"pointer" }}><img src="/assets/ui_wrench_gear.png" style={{width:16,height:16,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/> R&D CENTER</button>
+        <button onClick={()=>{ SFX.uiTap(); onRnD(); }} style={{ width:"100%",background:"rgba(255,255,255,0.04)",border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 0",color:C.inkDim,fontSize:11,fontFamily:"monospace",letterSpacing:1,cursor:"pointer" }}><img src="/assets/ui_wrench_gear.png" alt="" style={{width:16,height:16,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/> R&D CENTER</button>
         {/* 道具欄 + 看廣告 */}
         <div style={{ marginTop:8,background:"rgba(255,255,255,0.03)",border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 14px" }}>
           <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8 }}>
             <div style={{ fontSize:9,color:C.inkDim,letterSpacing:2,fontFamily:"monospace" }}>道具欄 ({Object.values(inventory).reduce((a,b)=>a+b,0)}/{MAX_INVENTORY})</div>
             <button onClick={()=>{ SFX.uiTap(); onWatchAd&&onWatchAd(item=>{ setAdCountLocal(todayAdCount()); }); }}
               style={{ fontSize:10,color:adCountLocal>=MAX_AD_PER_DAY?C.inkDim:C.amber,background:"transparent",border:`1px solid ${adCountLocal>=MAX_AD_PER_DAY?"rgba(255,255,255,0.1)":"rgba(245,166,35,0.4)"}`,borderRadius:8,padding:"3px 10px",cursor:adCountLocal>=MAX_AD_PER_DAY?"not-allowed":"pointer",fontFamily:"monospace" }}>
-              <><img src="/assets/ui_play_screen.png" style={{width:14,height:14,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/> 看廣告換道具 ({MAX_AD_PER_DAY-adCountLocal}次)</>
+              <><img src="/assets/ui_play_screen.png" alt="" style={{width:14,height:14,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/> 看廣告換道具 ({MAX_AD_PER_DAY-adCountLocal}次)</>
             </button>
           </div>
           <div style={{ display:"flex",gap:8,flexWrap:"wrap" }}>
@@ -2035,13 +2033,13 @@ function PlanetSelect({ onSelect, onBack, funds, rocketId, isPlanetUnlocked, pla
           <div style={{ display:"flex",flexDirection:"column",gap:6,alignItems:"center" }}>
             {unlocked&&<div style={{ color:p.color,fontSize:16 }}>▶</div>}
             <button onClick={e=>{ e.stopPropagation(); SFX.uiTap(); onPlanetLeaderboard&&onPlanetLeaderboard(p); }}
-              style={{ background:"rgba(245,166,35,0.1)",border:"1px solid rgba(245,166,35,0.25)",borderRadius:8,padding:"3px 8px",fontSize:10,color:"#F5A623",cursor:"pointer",fontFamily:"monospace" }}><img src="/assets/ui_podium.png" style={{width:16,height:16,objectFit:"contain"}}/></button>
+              style={{ background:"rgba(245,166,35,0.1)",border:"1px solid rgba(245,166,35,0.25)",borderRadius:8,padding:"3px 8px",fontSize:10,color:"#F5A623",cursor:"pointer",fontFamily:"monospace" }}><img src="/assets/ui_podium.png" alt="" style={{width:16,height:16,objectFit:"contain"}}/></button>
           </div>
         </div>; })}
         {/* Hint that more planets await */}
         {nextLocked<PLANETS.length-1 && (
           <div style={{ background:"rgba(255,255,255,0.02)",border:`1px dashed ${C.border}`,borderRadius:14,padding:"14px",textAlign:"center",opacity:0.5 }}>
-            <img src="/assets/ui_padlock.png" style={{width:40,height:40,objectFit:"contain",marginBottom:4}}/>
+            <img src="/assets/ui_padlock.png" alt="" style={{width:40,height:40,objectFit:"contain",marginBottom:4}}/>
             <div style={{ fontSize:11,color:C.inkDim }}>征服 {PLANETS[nextLocked].name} 後解鎖下一個星球</div>
           </div>
         )}
@@ -2067,7 +2065,7 @@ function RnD({ onBack, funds, rocketId, rocketUses={}, onUnlock, onRepair, onBuy
       <StarsBg/>
       <div style={{ padding:"14px 20px 10px",display:"flex",alignItems:"center",gap:10,borderBottom:`1px solid ${C.border}`,position:"relative",zIndex:2 }}>
         <button onClick={()=>{ SFX.uiTap(); onBack(); }} style={{ background:"none",border:"none",color:C.inkDim,fontSize:22,cursor:"pointer",padding:0 }}>←</button>
-        <span style={{ fontWeight:700,fontSize:12,letterSpacing:2,fontFamily:"monospace",display:"flex",alignItems:"center",gap:6 }}><img src="/assets/ui_wrench_gear.png" style={{width:18,height:18,objectFit:"contain"}}/> R&D CENTER</span>
+        <span style={{ fontWeight:700,fontSize:12,letterSpacing:2,fontFamily:"monospace",display:"flex",alignItems:"center",gap:6 }}><img src="/assets/ui_wrench_gear.png" alt="" style={{width:18,height:18,objectFit:"contain"}}/> R&D CENTER</span>
         <div style={{ flex:1 }}/><span style={{ color:C.amber,fontSize:12,fontFamily:"monospace" }}>${funds.toLocaleString()}</span>
       </div>
       <div style={{ flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch",padding:"16px 16px 40px",position:"relative",zIndex:2 }}>
@@ -2079,7 +2077,6 @@ function RnD({ onBack, funds, rocketId, rocketUses={}, onUnlock, onRepair, onBuy
           const wear=owned?wearLevel(rocketUses[r.id]||0):0;
           const rCost=owned&&wear>0?repairCost(r.id,wear):0;
           const canRepair=owned&&wear>0&&funds>=rCost;
-          const repairTooExp=owned&&wear>0&&funds<rCost;
           return (
             <div key={r.id} style={{ background:owned?"rgba(255,255,255,0.06)":"rgba(255,255,255,0.03)",border:`1px solid ${owned?r.color+"44":C.border}`,borderRadius:14,padding:"14px 16px",marginBottom:10,display:"flex",alignItems:"center",gap:12,opacity:tooExp&&!owned?0.55:1 }}>
               <div style={{ width:54,display:"flex",justifyContent:"center",opacity:owned?1:0.5,filter:owned?"none":"grayscale(0.6)" }}>
@@ -2109,7 +2106,7 @@ function RnD({ onBack, funds, rocketId, rocketUses={}, onUnlock, onRepair, onBuy
         })}
         {rocketId+1<ROCKETS.length-1&&(
           <div style={{ background:"rgba(255,255,255,0.02)",border:`1px dashed ${C.border}`,borderRadius:14,padding:"14px",textAlign:"center",opacity:0.5,marginBottom:10 }}>
-            <img src="/assets/ui_padlock.png" style={{width:40,height:40,objectFit:"contain",marginBottom:4}}/>
+            <img src="/assets/ui_padlock.png" alt="" style={{width:40,height:40,objectFit:"contain",marginBottom:4}}/>
             <div style={{ fontSize:11,color:C.inkDim }}>研發出下一台火箭後解鎖更多型號</div>
           </div>
         )}
@@ -2168,7 +2165,7 @@ function clearSave(){ try{ localStorage.removeItem(SAVE_KEY); }catch(e){} }
 export default function App() {
   const saved = (typeof window!=="undefined") ? loadSave() : null;
   const [screen,setScreen]=useState("home");
-  const [playerName,setPlayerName]=useState(getPlayerName());
+  const [playerName]=useState(getPlayerName());
   const [survivalKey,setSurvivalKey]=useState(0); // 重新挑戰用
   const [leaderboardMode,setLeaderboardMode]=useState("survival");
   const [leaderboardPlanet,setLeaderboardPlanet]=useState(null);
