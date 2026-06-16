@@ -8,7 +8,7 @@ const FIREBASE_CONFIG = {
 
 const BASE_URL = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents`;
 const API_KEY = FIREBASE_CONFIG.apiKey;
-const MAX_RANK = 20; // 只保留前20名
+const MAX_RANK = 10; // 只保留前10名
 
 function toFirestore(obj) {
   const fields = {};
@@ -79,7 +79,7 @@ export async function uploadSurvivalScore({ name, score, elapsed, wave, rocketId
   }
 }
 
-export async function getSurvivalLeaderboard(limit=20) {
+export async function getSurvivalLeaderboard(limit=10) {
   try { return await runQuery("survival_scores", [], "score", limit); }
   catch(e) { return []; }
 }
@@ -99,7 +99,7 @@ export async function uploadMissionScore({ name, planetId, score, pct, rocketId 
   }
 }
 
-export async function getMissionLeaderboard(planetId, limit=20) {
+export async function getMissionLeaderboard(planetId, limit=10) {
   try {
     // 先拿全部 mission_scores，JS 端再 filter planetId
     // 避免 Firestore 複合索引需求（filter + orderBy 同時用）
@@ -110,7 +110,7 @@ export async function getMissionLeaderboard(planetId, limit=20) {
         structuredQuery: {
           from: [{ collectionId: "mission_scores" }],
           orderBy: [{ field: { fieldPath: "score" }, direction: "DESCENDING" }],
-          limit: 200, // 拿多一點，JS 端再過濾
+          limit: 100, // 拿夠用即可，降低讀取消耗
         },
       }),
     });

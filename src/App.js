@@ -267,10 +267,10 @@ function LeaderboardPage({ mode="survival", planetId=0, planetName="", onBack })
   useEffect(()=>{
     if(tab==="survival"){
       setLoading(true); setScores([]);
-      getSurvivalLeaderboard(20).then(s=>{ setScores(s); setLoading(false); }).catch(()=>setLoading(false));
+      getSurvivalLeaderboard(10).then(s=>{ setScores(s); setLoading(false); }).catch(()=>setLoading(false));
     } else if(tab==="mission" && selectedPlanet){
       setLoading(true); setScores([]);
-      getMissionLeaderboard(selectedPlanet.id,20).then(s=>{ setScores(s); setLoading(false); }).catch(()=>setLoading(false));
+      getMissionLeaderboard(selectedPlanet.id,10).then(s=>{ setScores(s); setLoading(false); }).catch(()=>setLoading(false));
     }
   },[tab,selectedPlanet]);
 
