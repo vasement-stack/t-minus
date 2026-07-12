@@ -8,7 +8,8 @@ const FIREBASE_CONFIG = {
 
 const BASE_URL = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents`;
 const API_KEY = FIREBASE_CONFIG.apiKey;
-const MAX_RANK = 10; // 只保留前10名
+const MAX_RANK = 10;
+const CACHE_TTL = 60 * 60 * 1000; // 1小時，毫秒
 
 function toFirestore(obj) {
   const fields = {};
@@ -30,48 +31,71 @@ function fromFirestore(doc) {
   return out;
 }
 
-async function runQuery(collectionId, filters=[], orderBy="score", limit=20) {
-  const where = filters.length === 1 ? { fieldFilter: filters[0] } :
-    filters.length > 1 ? { compositeFilter: { op: "AND", filters: filters.map(f=>({ fieldFilter:f })) } } :
-    undefined;
-
-  const query = {
-    structuredQuery: {
-      from: [{ collectionId }],
-      orderBy: [{ field: { fieldPath: orderBy }, direction: "DESCENDING" }],
-      limit,
-    },
-  };
-  if (where) query.structuredQuery.where = where;
-
+async function runQuery(collectionId, orderBy="score", limit=10) {
   const res = await fetch(`${BASE_URL}:runQuery?key=${API_KEY}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(query),
+    body: JSON.stringify({
+      structuredQuery: {
+        from: [{ collectionId }],
+        orderBy: [{ field: { fieldPath: orderBy }, direction: "DESCENDING" }],
+        limit,
+      },
+    }),
   });
   const data = await res.json();
   return data.filter(d => d.document).map(d => fromFirestore(d.document));
 }
 
+// ─── 全域快取：存在 Firestore 的 cache collection ────────────────────────────
+// 每個 cache document 的 key：survival / mission_0 / mission_1 ... mission_7
+// 結構：{ data: JSON string, updatedAt: timestamp }
+
+async function getCache(key) {
+  try {
+    const res = await fetch(`${BASE_URL}/cache/${key}?key=${API_KEY}`);
+    if (!res.ok) return null;
+    const doc = await res.json();
+    if (!doc.fields) return null;
+    const updatedAt = parseInt(doc.fields.updatedAt?.integerValue || 0);
+    if (Date.now() - updatedAt > CACHE_TTL) return null; // 過期
+    const raw = doc.fields.data?.stringValue;
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+
+async function setCache(key, data) {
+  try {
+    await fetch(`${BASE_URL}/cache/${key}?key=${API_KEY}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fields: {
+          data: { stringValue: JSON.stringify(data) },
+          updatedAt: { integerValue: String(Date.now()) },
+        },
+      }),
+    });
+  } catch(e) { /* 快取寫入失敗不影響主功能 */ }
+}
+
 // ─── 生存挑戰分榜 ─────────────────────────────────────────────────────────────
 export async function uploadSurvivalScore({ name, score, elapsed, wave, rocketId }) {
   try {
-    // 查第20名的分數
-    const top20 = await runQuery("survival_scores", [], "score", MAX_RANK);
-    const cutoff = top20.length >= MAX_RANK ? top20[top20.length-1].score : 0;
+    const top = await runQuery("survival_scores", "score", MAX_RANK);
+    const cutoff = top.length >= MAX_RANK ? top[top.length-1].score : 0;
+    if (top.length >= MAX_RANK && score <= cutoff) return null;
 
-    // 分數不夠高就不上傳
-    if (top20.length >= MAX_RANK && score <= cutoff) return null;
-
-    // 上傳
     await fetch(`${BASE_URL}/survival_scores?key=${API_KEY}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(toFirestore({ name, score, elapsed, wave, rocketId, createdAt: Date.now() })),
     });
 
-    // 計算排名
-    const above = top20.filter(s => s.score > score).length;
+    // 上傳後清除快取，讓下次查詢拿到最新資料
+    await setCache("survival", null);
+
+    const above = top.filter(s => s.score > score).length;
     return above + 1;
   } catch (e) {
     console.error("uploadSurvivalScore:", e);
@@ -80,8 +104,16 @@ export async function uploadSurvivalScore({ name, score, elapsed, wave, rocketId
 }
 
 export async function getSurvivalLeaderboard(limit=10) {
-  try { return await runQuery("survival_scores", [], "score", limit); }
-  catch(e) { return []; }
+  try {
+    // 先查全域快取
+    const cached = await getCache("survival");
+    if (cached) return cached.slice(0, limit);
+
+    // 快取不存在或過期，重新查
+    const scores = await runQuery("survival_scores", "score", limit);
+    await setCache("survival", scores);
+    return scores;
+  } catch(e) { return []; }
 }
 
 // ─── 大關任務分榜 ─────────────────────────────────────────────────────────────
@@ -92,6 +124,8 @@ export async function uploadMissionScore({ name, planetId, score, pct, rocketId 
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(toFirestore({ name, planetId, score, pct, rocketId, createdAt: Date.now() })),
     });
+    // 清除該星球的快取
+    await setCache(`mission_${planetId}`, null);
     return null;
   } catch (e) {
     console.error("uploadMissionScore:", e);
@@ -101,8 +135,12 @@ export async function uploadMissionScore({ name, planetId, score, pct, rocketId 
 
 export async function getMissionLeaderboard(planetId, limit=10) {
   try {
-    // 先拿全部 mission_scores，JS 端再 filter planetId
-    // 避免 Firestore 複合索引需求（filter + orderBy 同時用）
+    // 先查全域快取
+    const cacheKey = `mission_${planetId}`;
+    const cached = await getCache(cacheKey);
+    if (cached) return cached.slice(0, limit);
+
+    // 快取不存在或過期，重新查全部再篩選
     const res = await fetch(`${BASE_URL}:runQuery?key=${API_KEY}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -110,13 +148,17 @@ export async function getMissionLeaderboard(planetId, limit=10) {
         structuredQuery: {
           from: [{ collectionId: "mission_scores" }],
           orderBy: [{ field: { fieldPath: "score" }, direction: "DESCENDING" }],
-          limit: 100, // 拿夠用即可，降低讀取消耗
+          limit: 100,
         },
       }),
     });
     const data = await res.json();
     const all = data.filter(d => d.document).map(d => fromFirestore(d.document));
-    return all.filter(s => s.planetId === planetId).slice(0, limit);
+    const filtered = all.filter(s => s.planetId === planetId).slice(0, limit);
+
+    // 存入快取
+    await setCache(cacheKey, filtered);
+    return filtered;
   } catch(e) {
     console.error("getMissionLeaderboard:", e);
     return [];
